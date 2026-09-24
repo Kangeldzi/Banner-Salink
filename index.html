@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --neon-blue: #00f5ff;
+            --electric-purple: #9d00ff;
+            --neon-pink: #ff00e4;
+            --dark-space: #0a0a1a;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark-space) 0%, #1a1a2e 100%);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .custom-image-container {
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+        
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        
+        .custom-clickable-image {
+            width: 100%;
+            max-width: 1024px;
+            height: auto;
+            max-height: 1536px;
+            cursor: pointer;
+            display: block;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.2);
+            filter: drop-shadow(0 0 10px rgba(157, 0, 255, 0.3));
+            /* Enhanced image rendering for 8K quality */
+            image-rendering: crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            -ms-interpolation-mode: nearest-neighbor;
+            object-fit: contain;
+            background-color: rgba(10, 10, 26, 0.1);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        .custom-clickable-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 50px rgba(0, 245, 255, 0.4),
+                        0 0 60px rgba(255, 0, 228, 0.2);
+            filter: drop-shadow(0 0 15px rgba(157, 0, 255, 0.5));
+            border-color: rgba(0, 245, 255, 0.3);
+        }
+        
+        /* Tombol Overlay */
+        .button-overlay {
+            position: absolute;
+            bottom: 12%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 0 20px;
+        }
+        
+        .custom-action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 75%;
+            max-width: 280px;
+            padding: 14px 0;
+            background: linear-gradient(45deg, var(--neon-blue), var(--electric-purple));
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 0 6px 25px rgba(0, 245, 255, 0.4),
+                        0 0 0 1.5px rgba(157, 0, 255, 0.3),
+                        inset 0 0 15px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+        
+        .custom-action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--electric-purple), var(--neon-pink));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .custom-action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.5),
+                        0 0 0 2px rgba(255, 0, 228, 0.4),
+                        inset 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+        
+        .custom-action-button:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1080px) {
+            .button-overlay {
+                bottom: 10%;
+            }
+            
+            .custom-action-button {
+                width: 85%;
+                max-width: 260px;
+                padding: 12px 0;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .button-overlay {
+                bottom: 8%;
+            }
+            
+            .custom-action-button {
+                width: 90%;
+                max-width: 240px;
+                padding: 10px 0;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .button-overlay {
+                bottom: 6%;
+            }
+            
+            .custom-action-button {
+                width: 95%;
+                max-width: 220px;
+                padding: 8px 0;
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .custom-image-container {
+                padding: 10px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="custom-image-container">
+        <div class="image-wrapper">
+            <!-- GAMBAR DENGAN RESOLUSI TINGGI - PASTIKAN ANDA MEMILIKI FILE ASLI 8K -->
+            <a href="https://demo-salink.vercel.app/" target="_blank" style="display: block; text-decoration: none;">
+                <!-- Menggunakan gambar dengan resolusi maksimal -->
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_RZ-nz-y7smobD9hEzAb7UwDCprbGptWdnqxKuSrZyQUAB48VOPbikM_d0xEqI2rVbbH2tu1YngWwOdaWjCvUlLvbewzXj_v6EehcxpfvnRvsh0ytO8yDfJy_jofdO7gLokGWnlAhOTeqI6ElAqKdcEmiyQ5IJ9tzMbQAAG6GZ9lT-wtaGyU6QevH/s1280/1000997206.jpg" 
+                     alt="Banner Salink Emergency" 
+                     class="custom-clickable-image">
+            </a>
+            
+            <div class="button-overlay">
+                <a href="https://demo-salink.vercel.app/" class="custom-action-button" target="_blank">
+                    <span style="text-shadow: 0 0 10px rgba(0,245,255,0.7);">KLIK DISINI</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Teknik Progressive Loading untuk Gambar Berkualitas Tinggi
+            const imageElement = document.querySelector('.custom-clickable-image');
+            
+            if (imageElement) {
+                // Preload gambar berkualitas tinggi dalam resolusi berbeda
+                const imageUrl = imageElement.src;
+                const baseUrl = imageUrl.split('/s320/')[0];
+                const imageName = imageUrl.split('/s320/')[1];
+                
+                // Coba resolusi tertinggi terlebih dahulu
+                const resolutions = [
+                    { width: 8192, label: '8K' },
+                    { width: 5120, label: '5K' },
+                    { width: 3840, label: '4K' },
+                    { width: 2560, label: '2K' },
+                    { width: 1920, label: 'FHD' },
+                    { width: 1280, label: 'HD' }
+                ];
+                
+                // Fungsi untuk mencoba memuat resolusi tertinggi
+                function loadHighResImage() {
+                    for (let i = 0; i < resolutions.length; i++) {
+                        const highResUrl = `${baseUrl}/s${resolutions[i].width}/${imageName}`;
+                        const testImg = new Image();
+                        
+                        testImg.onload = function() {
+                            console.log(`Loaded ${resolutions[i].label} image successfully`);
+                            imageElement.src = highResUrl;
+                            imageElement.style.filter = 'drop-shadow(0 0 10px rgba(157, 0, 255, 0.3))';
+                            return;
+                        };
+                        
+                        testImg.onerror = function() {
+                            console.log(`${resolutions[i].label} image not available, trying next...`);
+                        };
+                        
+                        // Mulai loading
+                        testImg.src = highResUrl;
+                    }
+                }
+                
+                // Mulai progressive loading setelah halaman selesai dimuat
+                setTimeout(loadHighResImage, 500);
+                
+                // Optimasi tampilan untuk resolusi tinggi
+                imageElement.style.imageRendering = 'crisp-edges';
+                imageElement.style.imageRendering = '-webkit-optimize-contrast';
+            }
+            
+            // Verify click functionality
+            const elements = document.querySelectorAll('[href]');
+            elements.forEach(el => {
+                el.addEventListener('click', function() {
+                    console.log('Redirecting to:', this.href);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
